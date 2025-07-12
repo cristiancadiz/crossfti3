@@ -22,8 +22,8 @@ login_manager.init_app(app)
 
 app.register_blueprint(main)
 
-@app.before_first_request
-def crear_tablas():
+# ✅ Crear tablas al iniciar la app
+with app.app_context():
     db.create_all()
 
 if __name__ == '__main__':
