@@ -1,7 +1,6 @@
 from flask import Flask
 from api.routes import main
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
 import os
 from dotenv import load_dotenv
 
@@ -17,12 +16,9 @@ db = SQLAlchemy(app)
 from api import models  # Importar modelos después de instanciar db
 models.db = db
 
-login_manager = LoginManager()
-login_manager.init_app(app)
-
 app.register_blueprint(main)
 
-# ✅ Crear tablas al iniciar la app
+# Crear tablas automáticamente
 with app.app_context():
     db.create_all()
 
