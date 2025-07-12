@@ -13,12 +13,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-from api import models  # Importar modelos después de instanciar db
+from api import models
 models.db = db
 
 app.register_blueprint(main)
 
-# Crear tablas automáticamente
 with app.app_context():
     db.create_all()
 
