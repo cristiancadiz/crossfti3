@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from api.models import db, Alumno, Reserva
+import os
 
 main = Blueprint('main', __name__)
+ARCHIVO_RESERVAS = "reservas.txt"
 
 @main.route('/')
 def home():
@@ -15,17 +16,19 @@ def reservar():
         email = request.form['email']
         horario = request.form['horario']
 
-        alumno = Alumno.query.filter_by(email=email).first()
-        if not alumno:
-            alumno = Alumno(nombre=nombre, email=email)
-            db.session.add(alumno)
-            db.session.commit()
+        with open(ARCHIVO_RESERVAS, "a", encoding="utf-8") as f:
+            f.write(f"{nombre} | {email} | {horario}\n")
 
-        nueva_reserva = Reserva(horario=horario, alumno_id=alumno.id)
-        db.session.add(nueva_reserva)
-        db.session.commit()
-
-        flash("Reserva guardada exitosamente.")
+        flash("✅ Reserva guardada exitosamente.")
         return redirect(url_for('main.home'))
 
     return render_template("reserva.html", horarios=horarios)
+
+@main.route('/reservas')
+def ver_reservas():
+    if not os.path.exists(ARCHIVO_RESERVAS):
+        reservas = []
+    else:
+        with open(ARCHIVO_RESERVAS, "r", encoding="utf-8") as f:
+            reservas = [line.strip() for line in f.readlines()]
+    return render_template("ver_reservas.html", reservas=reservas)
