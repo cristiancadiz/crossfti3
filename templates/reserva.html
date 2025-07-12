@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html>
-<head><title>Reservar Clase</title></head>
+<head>
+    <title>Reservar Clase</title>
+</head>
 <body>
-<h2>Reserva tu clase</h2>
-<form method="post">
-    Nombre: <input type="text" name="nombre" required><br>
-    Email: <input type="email" name="email" required><br>
-    Horario:
-    <select name="horario">
-        {% for hora in horarios %}
-        <option value="{{ hora }}">{{ hora }}</option>
-        {% endfor %}
-    </select><br>
-    <input type="submit" value="Reservar">
-</form>
+    <h2>Reserva tu clase</h2>
+    <form method="post">
+        Nombre: <input type="text" name="nombre" required><br>
+        Email: <input type="email" name="email" required><br>
+        Horario:
+        <select name="horario">
+            {% for hora in horarios %}
+            <option value="{{ hora }}">{{ hora }}</option>
+            {% endfor %}
+        </select><br>
+        <input type="submit" value="Reservar">
+    </form>
 </body>
 </html>
